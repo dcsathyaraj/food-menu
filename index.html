@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thanikssha Foods & Sweets LLC - Menu</title>
+<style>
+  :root{
+    --maroon:#7a1f2b; --saffron:#f28c1b; --gold:#f7c948; --cream:#fff8ec; --ink:#2b1d17; --card:#ffffff;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,sans-serif;background:var(--cream);color:var(--ink);line-height:1.4}
+  header{
+    background:linear-gradient(135deg,var(--maroon),#b3402a 60%,var(--saffron));
+    color:#fff;text-align:center;padding:42px 16px 34px;
+    border-bottom:6px solid var(--gold);
+  }
+  header h1{font-family:Georgia,serif;font-size:clamp(1.7rem,5vw,2.8rem);letter-spacing:.5px}
+  header p{opacity:.92;margin-top:8px;font-size:1.05rem}
+  .controls{position:sticky;top:0;z-index:10;background:var(--cream);padding:14px 12px 10px;box-shadow:0 4px 10px rgba(0,0,0,.08)}
+  .search{display:block;max-width:420px;margin:0 auto 12px;width:100%;padding:11px 18px;border-radius:999px;border:2px solid #e8d3b0;font-size:1rem;outline:none;background:#fff}
+  .search:focus{border-color:var(--saffron)}
+  .chips{display:flex;gap:8px;overflow-x:auto;padding:2px 4px 6px;justify-content:flex-start;max-width:1100px;margin:0 auto;scrollbar-width:thin}
+  @media(min-width:900px){.chips{flex-wrap:wrap;justify-content:center;overflow:visible}}
+  .chip{flex:0 0 auto;border:2px solid var(--maroon);background:#fff;color:var(--maroon);padding:8px 15px;border-radius:999px;font-weight:600;cursor:pointer;font-size:.92rem;transition:.15s}
+  .chip:hover{background:#fdebd0}
+  .chip.active{background:var(--maroon);color:#fff}
+  main{max-width:1100px;margin:0 auto;padding:22px 14px 50px}
+  section{margin-bottom:34px}
+  section h2{display:flex;align-items:center;gap:10px;font-family:Georgia,serif;color:var(--maroon);font-size:1.6rem;margin-bottom:14px;padding-bottom:6px;border-bottom:3px solid var(--gold)}
+  section h2 small{margin-left:auto;font-family:system-ui,sans-serif;font-size:.8rem;background:var(--saffron);color:#fff;padding:3px 10px;border-radius:999px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+  .item{background:var(--card);border-radius:14px;padding:14px 16px;border-left:6px solid var(--c,var(--saffron));box-shadow:0 2px 8px rgba(0,0,0,.07);transition:transform .15s,box-shadow .15s}
+  .item:hover{transform:translateY(-3px);box-shadow:0 8px 18px rgba(0,0,0,.12)}
+  .item b{display:block;font-size:1.02rem}
+  .item span{display:block;font-size:.82rem;color:#7b6458;margin-top:3px}
+  .empty{text-align:center;padding:40px;color:#7b6458;display:none}
+  footer{text-align:center;padding:22px;background:var(--maroon);color:#fde7c4;font-size:.9rem}
+</style>
+</head>
+<body>
+<header>
+  <h1>Thanikssha Foods &amp; Sweets LLC</h1>
+  <p>Fresh, homestyle vegetarian favorites - pick a category to explore</p>
+</header>
+
+<div class="controls">
+  <input class="search" id="q" type="search" placeholder="Search dishes (e.g. paneer, vada, ladoo)...">
+  <div class="chips" id="chips"></div>
+</div>
+
+<main id="menu"></main>
+<p class="empty" id="empty">No dishes found. Try another search.</p>
+<footer>Thanikssha Foods &amp; Sweets LLC</footer>
+
+<script>
+const MENU = [
+  {name:"Appetizers", icon:"🧅", color:"#e67e22", items:[
+    "Onion Pakoda","Aloo Bonda","Cabbage Pakora","Spinach Pakora","Paneer 65","Cut Mirchi","Onion Bhajji","Potato Bhajji","Medhu Vada","Punugulu","Dahi Vada","Masala Vada","Madur Vada"]},
+  {name:"Curries", icon:"🍛", color:"#c0392b", items:[
+    "Paneer Butter Masala","Mattar Paneer","Gutti Vankaya Curry","Vegetable Korma","Kala Channa Curry","Tindora Curry","Chole Curry","Sambar","Rasam",["Majiga Pulusu","Mor Kuzhambu"],"Cauliflower & Potato Curry","Aloo Mattar","Tomato Dal"]},
+  {name:"Breakfast", icon:"🥞", color:"#f1c40f", items:[
+    "Idli","Idiyappam",["Rice Sevai","Lemon, Tamarind, Coconut"],"Ven Pongal","Bisibelebath","Poori",["Chapathi / Phulka Roti"],"Aloo Chapathi","Uthappam"]},
+  {name:"Rice Varieties", icon:"🍚", color:"#27ae60", items:[
+    "Lemon Rice","Groundnut Rice","Tamarind Rice","Coconut Rice","Mango Rice","Curd Rice","Coriander Rice","Mint Rice"]},
+  {name:"Biriyani & Pulao", icon:"🥘", color:"#8e44ad", items:[
+    ["Bombay Pulao","Less spicy biriyani"],"White Pulao","Masala Pulao",["Veg Biriyani","Medium spice"],"Paneer Dum Biriyani","Plain White Rice","Bagara Rice"]},
+  {name:"Fries / Poriyal", icon:"🍟", color:"#d35400", items:[
+    "Tindora Fry","Ladysfinger Fry","Potato Fry","Cauliflower Fry"]},
+  {name:"Sweets", icon:"🍯", color:"#e84393", items:[
+    "Rasamalai","Carrot Halwa","Beetroot Halwa","Bhoondi Ladoo","Gulab Jamun","Kaja","Rava Ladoo",["Sunnundalu","Urad dal ladoo"],"Jangri","Kajji Kaya",["Puran Poli","Bobbatlu"],"Double Ka Meetha",["Modhak","Steamed"],["Boorelu","Susiyam"],"Semiya Kheer","Rava Kesari","Sweet Pongal"]},
+  {name:"Chutneys", icon:"🥥", color:"#16a085", items:[
+    "Coconut","Tomato","Ginger","Garlic","Peanut"]},
+  {name:"Snacks", icon:"🍿", color:"#2980b9", items:[
+    "Kara Bhoondhi"]}
+];
+
+const menuEl = document.getElementById('menu');
+const chipsEl = document.getElementById('chips');
+const emptyEl = document.getElementById('empty');
+const qEl = document.getElementById('q');
+let active = 'All';
+
+function norm(it){ return Array.isArray(it) ? {n:it[0], s:it[1]||''} : {n:it, s:''}; }
+
+function render(){
+  const term = qEl.value.trim().toLowerCase();
+  let html = '', shown = 0;
+  MENU.forEach(cat=>{
+    if(active!=='All' && active!==cat.name) return;
+    const items = cat.items.map(norm).filter(i=>!term || (i.n+' '+i.s).toLowerCase().includes(term));
+    if(!items.length) return;
+    shown += items.length;
+    html += `<section style="--c:${cat.color}">
+      <h2><span>${cat.icon}</span>${cat.name}<small>${items.length}</small></h2>
+      <div class="grid">${items.map(i=>`<div class="item"><b>${i.n}</b>${i.s?`<span>${i.s}</span>`:''}</div>`).join('')}</div>
+    </section>`;
+  });
+  menuEl.innerHTML = html;
+  emptyEl.style.display = shown ? 'none' : 'block';
+}
+
+function buildChips(){
+  const names = ['All', ...MENU.map(c=>c.name)];
+  chipsEl.innerHTML = names.map(n=>{
+    const cat = MENU.find(c=>c.name===n);
+    return `<button class="chip ${n===active?'active':''}" data-n="${n}">${cat?cat.icon+' ':''}${n}</button>`;
+  }).join('');
+}
+
+chipsEl.addEventListener('click', e=>{
+  const b = e.target.closest('.chip'); if(!b) return;
+  active = b.dataset.n; buildChips(); render();
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+qEl.addEventListener('input', render);
+buildChips(); render();
+</script>
+</body>
+</html>
