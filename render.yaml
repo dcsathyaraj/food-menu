@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: thanikssha-menu
+    runtime: static
+    staticPublishPath: .
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: public, max-age=300
